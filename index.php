@@ -8,7 +8,7 @@ use Dotenv\Dotenv;
 $dotenv = Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
-function log($text) {
+function logwrite($text) {
     file_put_contents("./log.txt",$text."\n",FILE_APPEND);
 }
 
@@ -24,7 +24,7 @@ try {
     die($e);
 }
 
-log("Getting clients... ");
+logwrite("Getting clients... ");
 $clients = $ninja->clients->all(["per_page"=>9999999]);
-log("Got ".sizeof($clients["data"])." clients");
+logwrite("Got ".sizeof($clients["data"])." clients");
 
