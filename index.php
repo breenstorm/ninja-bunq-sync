@@ -45,7 +45,7 @@ $client = findBestMatchIndex($thisclient,array_map(function($elm) { return $elm[
 logwrite("Best matching client has index ".$client);
 logwrite($clients["data"][$client]["name"]);
 
-$invoices = $ninja->invoices->all(["archived"=>false]);
+$invoices = $ninja->invoices->all(["balance"=>"gt:0"]);
 logwrite("Found ".sizeof($invoices)." invoices");
 foreach ($invoices as $invoice) {
     logwrite(var_export($invoice,true));
