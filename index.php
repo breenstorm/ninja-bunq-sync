@@ -45,5 +45,5 @@ logwrite("Got ".sizeof($clients["data"])." clients");
 $thisclient = $data->NotificationUrl->object->Payment->counterparty_alias->display_name;
 $thisclient = "NEP Mediasolutions BV";
 logwrite("Looking for client ".$thisclient);
-$client = findBestMatchIndex(array_map(function($elm) { return $elm["name"]; },$clients["data"]),$thisclient);
+$client = findBestMatchIndex($thisclient,array_map(function($elm) { return $elm["name"]; },$clients["data"]));
 logwrite("Best matching client has index ".$client);
