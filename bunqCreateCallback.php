@@ -42,7 +42,9 @@ $primaryMonetaryAccount = BunqContext::getUserContext()->getPrimaryMonetaryAccou
 //print_r($primaryMonetaryAccount);
 
 $notificationFilter = new NotificationFilterUrl('MUTATION', 'https://ninja.breenstorm.nl/callbacks/bunq/index.php');
-$createdNotificationFilter = NotificationFilterUrlMonetaryAccountInternal::createWithListResponse($primaryMonetaryAccount->getId(), [$notificationFilter])->getValue();
+$deletedNotificationFilter = NotificationFilterUrlMonetaryAccountInternal::listing($primaryMonetaryAccount->getId());
+var_dump($deletedNotificationFilter);
+//$createdNotificationFilter = NotificationFilterUrlMonetaryAccountInternal::createWithListResponse($primaryMonetaryAccount->getId(), [$notificationFilter])->getValue();
 
-print_r($createdNotificationFilter);
+//print_r($createdNotificationFilter);
 ?>
