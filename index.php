@@ -46,7 +46,7 @@ logwrite("Best matching client has index ".$client);
 logwrite($clients["data"][$client]["name"]);
 
 //$invoices = $ninja->invoices->all(["per_page"=>9999999]);
-$invoices = $ninja->invoices->all(["status_id"=>2]);
+$invoices = $ninja->invoices->all(["status"=>2]);
 //$invoices = $ninja->invoices->all(["balance"=>"gt:0"]);
 //$invoices = $ninja->invoices->all(["per_page"=>9999999]);
 logwrite("Found ".sizeof($invoices["data"])." invoices");
