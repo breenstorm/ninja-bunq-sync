@@ -11,7 +11,6 @@ function findBestMatchIndex($needle,$haystack) {
     foreach ($haystack as $key => $item) {
         similar_text($needle,$item,$thisscore);
         if ($thisscore>$bestscore) {
-            logwrite("Best so far");
             $bestscore = $thisscore;
             $bestmatch = $key;
         }
