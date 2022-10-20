@@ -1,0 +1,6 @@
+{
+  "require": {
+    "invoiceninja/sdk-php": "*",
+    "bunq/sdk_php": "1.15.0"
+  }
+}
