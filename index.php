@@ -9,9 +9,7 @@ function findBestMatchIndex($needle,$haystack) {
     $bestscore = 0;
     $bestmatch = null;
     foreach ($haystack as $key => $item) {
-        logwrite("Looking for similarity between ".$needle." and ".$item);
         similar_text($needle,$item,$thisscore);
-        logwrite("Score is ".$thisscore);
         if ($thisscore>$bestscore) {
             logwrite("Best so far");
             $bestscore = $thisscore;
@@ -43,7 +41,6 @@ $clients = $ninja->clients->all(["per_page"=>9999999]);
 logwrite("Got ".sizeof($clients["data"])." clients");
 
 $thisclient = $data->NotificationUrl->object->Payment->counterparty_alias->display_name;
-$thisclient = "NEP Mediasolutions BV";
 logwrite("Looking for client ".$thisclient);
 $client = findBestMatchIndex($thisclient,array_map(function($elm) { return $elm["name"]; },$clients["data"]));
 logwrite("Best matching client has index ".$client);
