@@ -41,13 +41,18 @@ logwrite("Got ".sizeof($clients["data"])." clients");
 
 $thisclient = $data->NotificationUrl->object->Payment->counterparty_alias->display_name;
 logwrite("Looking for client ".$thisclient);
-$client = findBestMatchIndex($thisclient,array_map(function($elm) { return $elm["name"]; },$clients["data"]));
-logwrite("Best matching client has index ".$client);
-logwrite($clients["data"][$client]["name"]);
+$transactionclient = findBestMatchIndex($thisclient,array_map(function($elm) { return $elm["name"]; },$clients["data"]));
+logwrite("Best matching client has index ".$transactionclient);
+logwrite($clients["data"][$transactionclient]["name"]);
 
 $invoices = $ninja->invoices->all(["status"=>"active"]);
 logwrite("Found ".sizeof($invoices["data"])." invoices");
 foreach ($invoices["data"] as $invoice) {
-    $invoiceclient = $ninja->clients->get($invoice["client_id"]);
+    $invoiceclient = null;
+    foreach ($clients["data"] as $client) {
+        if ($client["id"]==$invoice["client_id"]) {
+            $invoiceclient = $client;
+        }
+    }
     logwrite($invoice["number"]." Euro ".$invoice["amount"]." for ".$invoiceclient["name"]);
 }
