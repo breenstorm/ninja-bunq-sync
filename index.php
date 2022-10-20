@@ -70,8 +70,7 @@ function logwrite($text) {
 }
 
 $body = file_get_contents('php://input');
-$data = json_decode($body);
-$data = $body;
+$data = json_decode($body,true);
 
 file_put_contents("request-".microtime(true).".json",$data);
 
