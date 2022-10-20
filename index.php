@@ -47,7 +47,7 @@ class DumpHTTPRequestToFile {
 }
 
 
-(new DumpHTTPRequestToFile)->execute('./dumprequest-'.strtotime("now").'.txt');
+(new DumpHTTPRequestToFile)->execute('./dumprequest-'.microtime(true).'.txt');
 
 $dotenv = Dotenv::createImmutable(__DIR__);
 $dotenv->load();
@@ -59,7 +59,7 @@ function logwrite($text) {
 $body = file_get_contents('php://input');
 $data = json_decode($body);
 
-file_put_contents("request-".strtotime("now").".json",$data);
+file_put_contents("request-".microtime(true).".json",$data);
 
 try {
     $ninja = new InvoiceNinja($_ENV['NINJA_TOKEN']);

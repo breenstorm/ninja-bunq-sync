@@ -2,6 +2,7 @@
   "require": {
     "invoiceninja/sdk-php": "*",
     "bunq/sdk_php": "1.15.0",
-    "vlucas/phpdotenv": "^4"
+    "vlucas/phpdotenv": "^4",
+    "ext-json": "*"
   }
 }
