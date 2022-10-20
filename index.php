@@ -70,9 +70,9 @@ function logwrite($text) {
 }
 
 $body = file_get_contents('php://input');
-$data = json_decode($body,true);
+$data = json_decode($body);
 
-file_put_contents("request-".microtime(true).".json",$data);
+file_put_contents("request-".microtime(true).".json",var_export($data,true));
 
 try {
     $ninja = new InvoiceNinja($_ENV['NINJA_TOKEN']);
