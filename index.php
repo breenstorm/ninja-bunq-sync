@@ -85,6 +85,7 @@ logwrite("Getting clients... ");
 $clients = $ninja->clients->all(["per_page"=>9999999]);
 logwrite("Got ".sizeof($clients["data"])." clients");
 
-$thisclient = "Henk";
+$thisclient = $data->NotificationUrl->object->Payment->counterparty_alias->display_name;
+logwrite("Looking for client ".$thisclient);
 $client = findBestMatchIndex(array_map(function($elm) { return $elm["name"]; },$clients["data"]),$thisclient);
 logwrite("Best matching client has index ".$client);
