@@ -48,5 +48,6 @@ logwrite($clients["data"][$client]["name"]);
 $invoices = $ninja->invoices->all(["status"=>"active"]);
 logwrite("Found ".sizeof($invoices["data"])." invoices");
 foreach ($invoices["data"] as $invoice) {
-    logwrite($invoice["number"]." Euro ".$invoice["amount"]);
+    $invoiceclient = $ninja->clients->get($invoice["client_id"]);
+    logwrite($invoice["number"]." Euro ".$invoice["amount"]." for ".$invoiceclient["name"]);
 }
