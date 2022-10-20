@@ -9,8 +9,11 @@ function findBestMatchIndex($needle,$haystack) {
     $bestscore = 0;
     $bestmatch = null;
     foreach ($haystack as $key => $item) {
+        logwrite("Looking for similarity between ".$needle." and ".$item);
         similar_text($needle,$item,$thisscore);
+        logwrite("Score is ".$thisscore);
         if ($thisscore>$bestscore) {
+            logwrite("Best so far");
             $bestscore = $thisscore;
             $bestmatch = $key;
         }
