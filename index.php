@@ -47,3 +47,6 @@ logwrite($clients["data"][$client]["name"]);
 
 $invoices = $ninja->invoices->all(["archived"=>false]);
 logwrite("Found ".sizeof($invoices)." invoices");
+foreach ($invoices as $invoice) {
+    logwrite(var_export($invoice,true));
+}
