@@ -47,8 +47,10 @@ if ($searchiban == $data->NotificationUrl->object->Payment->alias->iban) {
     $transactionclient = findBestMatchIndex($thisclient,array_map(function($elm) { return $elm["name"]; },$clients["data"]));
     logwrite("Best matching client has index ".$transactionclient." and name ". $clients["data"][$transactionclient]["name"]);
     $transactionamount = floatval($data->NotificationUrl->object->Payment->amount->value);
-    $transactiondec = floatval($data->NotificationUrl->object->Payment->description);
+    $transactiondesc = floatval($data->NotificationUrl->object->Payment->description);
 
+    logwrite("Desccription: ".$transactiondesc);
+    logwrite("Amount: ".number_format($transactionamount,2,",",""));
 
     $invoices = $ninja->invoices->all(["status"=>"active"]);
     logwrite("Found ".sizeof($invoices["data"])." invoices");
@@ -65,7 +67,7 @@ if ($searchiban == $data->NotificationUrl->object->Payment->alias->iban) {
         $invoiceamount = floatval($invoice["amount"]);
         logwrite($invoicenum." Euro ".number_format($invoiceamount,2,",","")." for ".$invoiceclient);
         $found = false;
-        if (($invoiceamount==$transactionamount) && (strpos($transactiondec,$invoicenum)!==false)) {
+        if (($invoiceamount==$transactionamount) && (strpos($transactiondesc,$invoicenum)!==false)) {
             logwrite("Found invoice match by amount and description");
             $found = true;
         } elseif (($invoiceamount==$transactionamount) && ($invoiceclient==$transactionclient)) {
