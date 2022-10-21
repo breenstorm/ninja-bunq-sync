@@ -47,7 +47,7 @@ if ($searchiban == $data->NotificationUrl->object->Payment->alias->iban) {
     $transactionclient = findBestMatchIndex($thisclient,array_map(function($elm) { return $elm["name"]; },$clients["data"]));
     logwrite("Best matching client has index ".$transactionclient." and name ". $clients["data"][$transactionclient]["name"]);
     $transactionamount = floatval($data->NotificationUrl->object->Payment->amount->value);
-    $transactiondesc = floatval($data->NotificationUrl->object->Payment->description);
+    $transactiondesc = $data->NotificationUrl->object->Payment->description;
 
     logwrite("Desccription: ".$transactiondesc);
     logwrite("Amount: ".number_format($transactionamount,2,",",""));
