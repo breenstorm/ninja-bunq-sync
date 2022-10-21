@@ -83,15 +83,15 @@ if ($searchiban == $data->NotificationUrl->object->Payment->alias->iban) {
     logwrite("Found ".sizeof($candidates)." possible matches");
     if (sizeof($candidates)==1) {
         logwrite("Certain about match. Applying payment.");
-        $ref = "Created from Bunq callback (". date("Y\-m\-d H:i:s",strtotime($data->NotificationUrl->object->Payment->created)) . " " . $data->NotificationUrl->object->Payment->counterparty_alias->display_name . " " . $data->NotificationUrl->object->Payment->description.")";
+        $ref = "Created from Bunq callback (". date("Y\-m\-d H:i:s",strtotime($data->NotificationUrl->object->Payment->created)) . " / " . $data->NotificationUrl->object->Payment->counterparty_alias->display_name . " / " . $data->NotificationUrl->object->Payment->description.")";
         $paymentparams = [
             "client_id"=>$invoiceclient["id"],
             "transaction_reference"=>$ref,
             "is_manual"=>1,
             "amount"=>$transactionamount,
             "invoices"=>[
-                "id"=>$invoice["id"],
-                "amount"=>$invoiceamount
+                "id"=>$candidates[0]->invoice["id"],
+                "amount"=>$transactionamount
             ]
         ];
         logwrite(var_export($paymentparams,true));
