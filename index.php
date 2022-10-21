@@ -96,6 +96,8 @@ if ($searchiban == $data->NotificationUrl->object->Payment->alias->iban) {
         ];
         logwrite(var_export($paymentparams,true));
         //TODO: Create and apply payment
+        $res = $ninja->payments->create($paymentparams);
+        logwrite(var_export($res,true));
     } else {
         logwrite("No conclusive match found. Not applying payment.");
     }
