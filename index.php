@@ -85,6 +85,7 @@ if ($searchiban == $data->NotificationUrl->object->Payment->alias->iban) {
     logwrite("Found ".sizeof($candidates)." possible matches");
     if (sizeof($candidates)==1) {
         logwrite("Certain about match. Applying payment.");
+        //TODO: Create and apply payment
     } else {
         logwrite("No conclusive match found. Not applying payment.");
     }
