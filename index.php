@@ -68,8 +68,7 @@ if ($searchiban == $data->NotificationUrl->object->Payment->alias->iban) {
         if (($invoiceamount==$transactionamount) && (strpos($transactiondec,$invoicenum)!==false)) {
             logwrite("Found invoice match by amount and description");
             $found = true;
-        }
-        if (($invoiceamount==$transactionamount) && ($invoiceclient==$transactionclient)) {
+        } elseif (($invoiceamount==$transactionamount) && ($invoiceclient==$transactionclient)) {
             logwrite("Found invoice match by amount and client");
             $found = true;
         }
