@@ -89,10 +89,10 @@ if ($searchiban == $data->NotificationUrl->object->Payment->alias->iban) {
             "transaction_reference"=>$ref,
             "is_manual"=>1,
             "amount"=>$transactionamount,
-            "invoices"=>[
+            "invoices"=>[[
                 "invoice_id"=>$candidates[0]->invoice["id"],
                 "amount"=>$transactionamount
-            ]
+            ]]
         ];
         logwrite(var_export($paymentparams,true));
         try {
