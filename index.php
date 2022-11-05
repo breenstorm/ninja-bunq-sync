@@ -63,6 +63,7 @@ if ($searchiban == $data->NotificationUrl->object->Payment->alias->iban) {
                 $invoiceclient = $client;
             }
         }
+        logwrite(var_export($invoiceclient,true));
         $invoicenum = $invoice["number"];
         $invoiceamount = floatval($invoice["amount"]);
         logwrite($invoicenum." Euro ".number_format($invoiceamount,2,",","")." for ".$invoiceclient["name"]);
