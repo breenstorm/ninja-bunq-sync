@@ -46,7 +46,6 @@ if ($searchiban == $data->NotificationUrl->object->Payment->alias->iban) {
     logwrite("Looking for client ".$thisclient);
     $transactionclient_id = findBestMatchIndex($thisclient,array_map(function($elm) { return $elm["name"]; },$clients["data"]));
     $transactionclient = $clients["data"][$transactionclient_id];
-    logwrite(var_export($transactionclient,true));
     logwrite("Best matching client has index ".$transactionclient_id." and name ". $transactionclient["name"]);
     $transactionamount = floatval($data->NotificationUrl->object->Payment->amount->value);
     $transactiondesc = $data->NotificationUrl->object->Payment->description;
@@ -97,8 +96,13 @@ if ($searchiban == $data->NotificationUrl->object->Payment->alias->iban) {
         ];
         logwrite(var_export($paymentparams,true));
         //TODO: Create and apply payment
-        $res = $ninja->payments->create($paymentparams);
-        logwrite(var_export($res,true));
+        try {
+            $res = $ninja->payments->create($paymentparams);
+            logwrite(var_export($res,true));
+        }
+        catch (Exception $e) {
+            logwrite($e->getMessage());
+        }
     } else {
         logwrite("No conclusive match found. Not applying payment.");
     }
