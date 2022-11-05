@@ -76,7 +76,8 @@ if ($searchiban == $data->NotificationUrl->object->Payment->alias->iban) {
         }
         if ($found) {
             $candidates[] = (Object)[
-                "invoice"=>$invoice
+                "invoice"=>$invoice,
+                "client"=>$invoiceclient
             ];
         }
     }
@@ -85,7 +86,7 @@ if ($searchiban == $data->NotificationUrl->object->Payment->alias->iban) {
         logwrite("Certain about match. Applying payment.");
         $ref = "Created from Bunq callback (". date("Y\-m\-d H:i:s",strtotime($data->NotificationUrl->object->Payment->created)) . " / " . $data->NotificationUrl->object->Payment->counterparty_alias->display_name . " / " . $data->NotificationUrl->object->Payment->description.")";
         $paymentparams = [
-            "client_id"=>$invoiceclient["id"],
+            "client_id"=>$candidates[0]->client["id"],
             "transaction_reference"=>$ref,
             "is_manual"=>1,
             "amount"=>$transactionamount,
