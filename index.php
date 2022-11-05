@@ -65,7 +65,8 @@ if ($searchiban == $data->NotificationUrl->object->Payment->alias->iban) {
         }
         $invoicenum = $invoice["number"];
         $invoiceamount = floatval($invoice["amount"]);
-        logwrite($invoicenum." Euro ".number_format($invoiceamount,2,",","")." for ".$invoiceclient["name"] . "(id ".$invoiceclient["id"].")");
+        $invoicebalance = floatval($invoice["balance"]);
+        logwrite($invoicenum." Euro ".number_format($invoiceamount,2,",","")." (balance ".number_format($invoicebalance,2,",","").") for ".$invoiceclient["name"] . "(id ".$invoiceclient["id"].")");
         $found = false;
         if (($invoiceamount==$transactionamount) && (strpos($transactiondesc,$invoicenum)!==false)) {
             logwrite("Found invoice match by amount and description");
@@ -82,7 +83,7 @@ if ($searchiban == $data->NotificationUrl->object->Payment->alias->iban) {
         }
     }
     logwrite("Found ".sizeof($candidates)." possible matches");
-//    exit;
+    exit;
     if (sizeof($candidates)==1) {
         logwrite("Certain about match. Applying payment.");
         if ($candidates[0]->invoice["balance"]!=0) {
