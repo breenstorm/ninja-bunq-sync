@@ -65,7 +65,7 @@ if ($searchiban == $data->NotificationUrl->object->Payment->alias->iban) {
         }
         $invoicenum = $invoice["number"];
         $invoiceamount = floatval($invoice["amount"]);
-        logwrite($invoicenum." Euro ".number_format($invoiceamount,2,",","")." for ".$invoiceclient["name"]);
+        logwrite($invoicenum." Euro ".number_format($invoiceamount,2,",","")." for ".$invoiceclient["name"] . "(id ".$invoiceclient["id"].")");
         $found = false;
         if (($invoiceamount==$transactionamount) && (strpos($transactiondesc,$invoicenum)!==false)) {
             logwrite("Found invoice match by amount and description");
