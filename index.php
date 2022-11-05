@@ -83,10 +83,9 @@ if ($searchiban == $data->NotificationUrl->object->Payment->alias->iban) {
         }
     }
     logwrite("Found ".sizeof($candidates)." possible matches");
-    exit;
     if (sizeof($candidates)==1) {
         logwrite("Certain about match. Applying payment.");
-        if ($candidates[0]->invoice["balance"]!=0) {
+        if ($candidates[0]->invoice["balance"]==0) {
             $ref = "Created from Bunq callback (" . date("Y\-m\-d H:i:s", strtotime($data->NotificationUrl->object->Payment->created)) . " / " . $data->NotificationUrl->object->Payment->counterparty_alias->display_name . " / " . $data->NotificationUrl->object->Payment->description . ")";
             $paymentparams = [
                 "client_id" => $candidates[0]->client["id"],
@@ -106,7 +105,7 @@ if ($searchiban == $data->NotificationUrl->object->Payment->alias->iban) {
                 logwrite($e->getMessage());
             }
         } else {
-            logwrite("Balance for invoice " . $invoice["number"] . " is zero. Not applying payment.");
+            logwrite("Balance for invoice " . $invoice["number"] . " is not zero. Not applying payment.");
         }
     } else {
         logwrite("No conclusive match found. Not applying payment.");
