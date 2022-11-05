@@ -57,54 +57,55 @@ if ($searchiban == $data->NotificationUrl->object->Payment->alias->iban) {
     logwrite("Found ".sizeof($invoices["data"])." invoices");
     $candidates = [];
     foreach ($invoices["data"] as $invoice) {
-        if ($invoice["balance"]!=0) {
-            $invoiceclient = null;
-            foreach ($clients["data"] as $client) {
-                if ($client["id"]==$invoice["client_id"]) {
-                    $invoiceclient = $client;
-                }
+        $invoiceclient = null;
+        foreach ($clients["data"] as $client) {
+            if ($client["id"]==$invoice["client_id"]) {
+                $invoiceclient = $client;
             }
-            $invoicenum = $invoice["number"];
-            $invoiceamount = floatval($invoice["amount"]);
-            logwrite($invoicenum." Euro ".number_format($invoiceamount,2,",","")." for ".$invoiceclient["name"] . "(id ".$invoiceclient["id"].")");
-            $found = false;
-            if (($invoiceamount==$transactionamount) && (strpos($transactiondesc,$invoicenum)!==false)) {
-                logwrite("Found invoice match by amount and description");
-                $found = true;
-            } elseif (($invoiceamount==$transactionamount) && ($invoiceclient["id"]==$transactionclient["id"])) {
-                logwrite("Found invoice match by amount and client");
-                $found = true;
-            }
-            if ($found) {
-                $candidates[] = (Object)[
-                    "invoice"=>$invoice,
-                    "client"=>$invoiceclient
-                ];
-            }
+        }
+        $invoicenum = $invoice["number"];
+        $invoiceamount = floatval($invoice["amount"]);
+        logwrite($invoicenum." Euro ".number_format($invoiceamount,2,",","")." for ".$invoiceclient["name"] . "(id ".$invoiceclient["id"].")");
+        $found = false;
+        if (($invoiceamount==$transactionamount) && (strpos($transactiondesc,$invoicenum)!==false)) {
+            logwrite("Found invoice match by amount and description");
+            $found = true;
+        } elseif (($invoiceamount==$transactionamount) && ($invoiceclient["id"]==$transactionclient["id"])) {
+            logwrite("Found invoice match by amount and client");
+            $found = true;
+        }
+        if ($found) {
+            $candidates[] = (Object)[
+                "invoice"=>$invoice,
+                "client"=>$invoiceclient
+            ];
         }
     }
     logwrite("Found ".sizeof($candidates)." possible matches");
-    exit;
+//    exit;
     if (sizeof($candidates)==1) {
         logwrite("Certain about match. Applying payment.");
-        $ref = "Created from Bunq callback (". date("Y\-m\-d H:i:s",strtotime($data->NotificationUrl->object->Payment->created)) . " / " . $data->NotificationUrl->object->Payment->counterparty_alias->display_name . " / " . $data->NotificationUrl->object->Payment->description.")";
-        $paymentparams = [
-            "client_id"=>$candidates[0]->client["id"],
-            "transaction_reference"=>$ref,
-            "is_manual"=>1,
-            "amount"=>$transactionamount,
-            "invoices"=>[[
-                "invoice_id"=>$candidates[0]->invoice["id"],
-                "amount"=>$transactionamount
-            ]]
-        ];
-        logwrite(var_export($paymentparams,true));
-        try {
-            $res = $ninja->payments->create($paymentparams);
-            logwrite(var_export($res,true));
-        }
-        catch (Exception $e) {
-            logwrite($e->getMessage());
+        if ($candidates[0]->invoice["balance"]!=0) {
+            $ref = "Created from Bunq callback (" . date("Y\-m\-d H:i:s", strtotime($data->NotificationUrl->object->Payment->created)) . " / " . $data->NotificationUrl->object->Payment->counterparty_alias->display_name . " / " . $data->NotificationUrl->object->Payment->description . ")";
+            $paymentparams = [
+                "client_id" => $candidates[0]->client["id"],
+                "transaction_reference" => $ref,
+                "is_manual" => 1,
+                "amount" => $transactionamount,
+                "invoices" => [[
+                    "invoice_id" => $candidates[0]->invoice["id"],
+                    "amount" => $transactionamount
+                ]]
+            ];
+            logwrite(var_export($paymentparams, true));
+            try {
+                $res = $ninja->payments->create($paymentparams);
+                logwrite(var_export($res, true));
+            } catch (Exception $e) {
+                logwrite($e->getMessage());
+            }
+        } else {
+            logwrite("Balance for invoice " . $invoice["number"] . " is zero. Not applying payment.");
         }
     } else {
         logwrite("No conclusive match found. Not applying payment.");
