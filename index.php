@@ -97,10 +97,10 @@ if ($searchiban == $data->NotificationUrl->object->Payment->alias->iban) {
                     "amount" => $transactionamount
                 ]]
             ];
-            logwrite(var_export($paymentparams, true));
+//            logwrite(var_export($paymentparams, true));
             try {
                 $res = $ninja->payments->create($paymentparams);
-                logwrite(var_export($res, true));
+//                logwrite(var_export($res, true));
             } catch (Exception $e) {
                 logwrite($e->getMessage());
             }
