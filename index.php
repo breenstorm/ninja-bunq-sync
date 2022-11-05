@@ -57,31 +57,34 @@ if ($searchiban == $data->NotificationUrl->object->Payment->alias->iban) {
     logwrite("Found ".sizeof($invoices["data"])." invoices");
     $candidates = [];
     foreach ($invoices["data"] as $invoice) {
-        $invoiceclient = null;
-        foreach ($clients["data"] as $client) {
-            if ($client["id"]==$invoice["client_id"]) {
-                $invoiceclient = $client;
+        if ($invoice["balance"]!=0) {
+            $invoiceclient = null;
+            foreach ($clients["data"] as $client) {
+                if ($client["id"]==$invoice["client_id"]) {
+                    $invoiceclient = $client;
+                }
             }
-        }
-        $invoicenum = $invoice["number"];
-        $invoiceamount = floatval($invoice["amount"]);
-        logwrite($invoicenum." Euro ".number_format($invoiceamount,2,",","")." for ".$invoiceclient["name"] . "(id ".$invoiceclient["id"].")");
-        $found = false;
-        if (($invoiceamount==$transactionamount) && (strpos($transactiondesc,$invoicenum)!==false)) {
-            logwrite("Found invoice match by amount and description");
-            $found = true;
-        } elseif (($invoiceamount==$transactionamount) && ($invoiceclient["id"]==$transactionclient["id"])) {
-            logwrite("Found invoice match by amount and client");
-            $found = true;
-        }
-        if ($found) {
-            $candidates[] = (Object)[
-                "invoice"=>$invoice,
-                "client"=>$invoiceclient
-            ];
+            $invoicenum = $invoice["number"];
+            $invoiceamount = floatval($invoice["amount"]);
+            logwrite($invoicenum." Euro ".number_format($invoiceamount,2,",","")." for ".$invoiceclient["name"] . "(id ".$invoiceclient["id"].")");
+            $found = false;
+            if (($invoiceamount==$transactionamount) && (strpos($transactiondesc,$invoicenum)!==false)) {
+                logwrite("Found invoice match by amount and description");
+                $found = true;
+            } elseif (($invoiceamount==$transactionamount) && ($invoiceclient["id"]==$transactionclient["id"])) {
+                logwrite("Found invoice match by amount and client");
+                $found = true;
+            }
+            if ($found) {
+                $candidates[] = (Object)[
+                    "invoice"=>$invoice,
+                    "client"=>$invoiceclient
+                ];
+            }
         }
     }
     logwrite("Found ".sizeof($candidates)." possible matches");
+    exit;
     if (sizeof($candidates)==1) {
         logwrite("Certain about match. Applying payment.");
         $ref = "Created from Bunq callback (". date("Y\-m\-d H:i:s",strtotime($data->NotificationUrl->object->Payment->created)) . " / " . $data->NotificationUrl->object->Payment->counterparty_alias->display_name . " / " . $data->NotificationUrl->object->Payment->description.")";
