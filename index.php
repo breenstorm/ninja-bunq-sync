@@ -63,7 +63,6 @@ if ($searchiban == $data->NotificationUrl->object->Payment->alias->iban) {
                 $invoiceclient = $client;
             }
         }
-        logwrite(var_export($invoiceclient,true));
         $invoicenum = $invoice["number"];
         $invoiceamount = floatval($invoice["amount"]);
         logwrite($invoicenum." Euro ".number_format($invoiceamount,2,",","")." for ".$invoiceclient["name"]);
@@ -91,12 +90,11 @@ if ($searchiban == $data->NotificationUrl->object->Payment->alias->iban) {
             "is_manual"=>1,
             "amount"=>$transactionamount,
             "invoices"=>[
-                "id"=>$candidates[0]->invoice["id"],
+                "invoice_id"=>$candidates[0]->invoice["id"],
                 "amount"=>$transactionamount
             ]
         ];
         logwrite(var_export($paymentparams,true));
-        //TODO: Create and apply payment
         try {
             $res = $ninja->payments->create($paymentparams);
             logwrite(var_export($res,true));
