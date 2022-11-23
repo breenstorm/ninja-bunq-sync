@@ -32,8 +32,8 @@ $apiContext = ApiContext::create(
 BunqContext::loadApiContext($apiContext);
 
 $userCompany = UserCompany::get();
+printf($userCompany->getPublicNickName());
 
-var_dump($userCompany);
 
 //$monetaryAccountList = MonetaryAccount::listing();
 //
