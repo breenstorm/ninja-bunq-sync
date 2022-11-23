@@ -4,6 +4,7 @@ use bunq\Context\BunqContext;
 use bunq\Model\Generated\Endpoint\Company;
 use bunq\Model\Generated\Endpoint\MonetaryAccount;
 use bunq\Model\Generated\Endpoint\User;
+use bunq\Model\Generated\Endpoint\UserCompany;
 use bunq\Model\Generated\Endpoint\UserPerson;
 use bunq\Model\Generated\Endpoint\NotificationFilterUrlMonetaryAccount;
 use bunq\Model\Generated\Object\NotificationFilterUrl;
