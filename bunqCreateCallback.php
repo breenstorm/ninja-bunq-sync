@@ -37,7 +37,10 @@ foreach ($monetaryAccountList as $monetaryAccount) {
 }
 
 $companyList = Company::listing();
-var_dump($companyList);
+
+foreach ($companyList as $company) {
+    printf($company->getUserCompany()->getName() . PHP_EOL);
+}
 
 //$user = BunqContext::getUserContext()->getUserPerson();
 //$primaryMonetaryAccount = BunqContext::getUserContext()->getPrimaryMonetaryAccount();
