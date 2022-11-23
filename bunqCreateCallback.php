@@ -12,12 +12,12 @@ use bunq\Util\BunqEnumApiEnvironmentType;
 require_once(__DIR__ . '/vendor/autoload.php');
 
 if (!isset($argv[1])) {
-    die ("Supply api key as param");
+    die ("Supply api key as param\n");
 }
 
 $environmentType = BunqEnumApiEnvironmentType::PRODUCTION(); //SANDBOX or PRODUCTION
 $apiKey = $argv[1]; // Replace with your API-key
-$deviceDescription = 'Prutsproject on Laptop'; // Replace with your device description
+$deviceDescription = gethostname(); // Replace with your device description
 $permittedIps = []; // List the real expected IPs of this device or leave empty to use the current IP
 
 $apiContext = ApiContext::create(
@@ -35,10 +35,10 @@ foreach ($monetaryAccountList as $monetaryAccount) {
     printf($monetaryAccount->getMonetaryAccountBank->getDescription() . PHP_EOL);
 }
 
-$user = BunqContext::getUserContext()->getUserPerson();
-$primaryMonetaryAccount = BunqContext::getUserContext()->getPrimaryMonetaryAccount();
-
-print_r($primaryMonetaryAccount);
+//$user = BunqContext::getUserContext()->getUserPerson();
+//$primaryMonetaryAccount = BunqContext::getUserContext()->getPrimaryMonetaryAccount();
+//
+//print_r($primaryMonetaryAccount);
 
 //$notificationFilter = new NotificationFilterUrl('MUTATION', 'https://ninja.breenstorm.nl/callbacks/bunq.php');
 //$createdNotificationFilter = NotificationFilterUrlMonetaryAccountInternal::createWithListResponse($primaryMonetaryAccount->getId(), [$notificationFilter])->getValue();
