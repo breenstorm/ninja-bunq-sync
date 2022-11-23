@@ -35,6 +35,9 @@ foreach ($monetaryAccountList as $monetaryAccount) {
     printf($monetaryAccount->getMonetaryAccountBank->getDescription() . PHP_EOL);
 }
 
+$companyList = \bunq\Model\Generated\Endpoint\UserCompany::get();
+var_dump($companyList);
+
 //$user = BunqContext::getUserContext()->getUserPerson();
 //$primaryMonetaryAccount = BunqContext::getUserContext()->getPrimaryMonetaryAccount();
 //
