@@ -1,6 +1,7 @@
 <?php
 use bunq\Context\ApiContext;
 use bunq\Context\BunqContext;
+use bunq\Model\Generated\Endpoint\Company;
 use bunq\Model\Generated\Endpoint\MonetaryAccount;
 use bunq\Model\Generated\Endpoint\User;
 use bunq\Model\Generated\Endpoint\UserPerson;
@@ -35,7 +36,7 @@ foreach ($monetaryAccountList as $monetaryAccount) {
     printf($monetaryAccount->getMonetaryAccountBank->getDescription() . PHP_EOL);
 }
 
-$companyList = User::listing();
+$companyList = Company::listing();
 var_dump($companyList);
 
 //$user = BunqContext::getUserContext()->getUserPerson();
