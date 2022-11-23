@@ -30,18 +30,22 @@ $apiContext = ApiContext::create(
 
 BunqContext::loadApiContext($apiContext);
 
-$monetaryAccountList = MonetaryAccount::listing();
+$userCompany = UserCompany::get();
 
-foreach ($monetaryAccountList as $monetaryAccount) {
-    printf($monetaryAccount->getMonetaryAccountBank->getDescription() . PHP_EOL);
-}
+var_dump($userCompany);
 
-$companyList = Company::listing();
-var_dump($companyList);
-
-foreach ($companyList as $company) {
-    printf($company->getUserCompany()->getName() . PHP_EOL);
-}
+//$monetaryAccountList = MonetaryAccount::listing();
+//
+//foreach ($monetaryAccountList as $monetaryAccount) {
+//    printf($monetaryAccount->getMonetaryAccountBank->getDescription() . PHP_EOL);
+//}
+//
+//$companyList = Company::listing();
+//var_dump($companyList);
+//
+//foreach ($companyList as $company) {
+//    printf($company->getUserCompany()->getName() . PHP_EOL);
+//}
 
 //$user = BunqContext::getUserContext()->getUserPerson();
 //$primaryMonetaryAccount = BunqContext::getUserContext()->getPrimaryMonetaryAccount();
